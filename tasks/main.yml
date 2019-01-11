@@ -1,0 +1,21 @@
+---
+     - name: install my-sql and it's packages
+       yum: name={{ item }} state=present
+       with_items:
+           - mysql
+           - mysql-python
+
+     - name: start the mysql servcie
+       service:
+           name: mysql
+           state: started
+           enabled: yes
+
+
+     - name: create database and user
+       mysql_db: name="{{ db_name }}" state=present
+
+     - name: create a mysql user
+       mysql_user: name="{{ db_user }}" password="{{ db_pass }}" priv='*.*:ALL' host='%' state='present'
+
+
